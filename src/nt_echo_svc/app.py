@@ -18,3 +18,5 @@ app.add_exception_handler(RequestValidationError, request_validation_handler)
 app.add_exception_handler(JSONDecodeError, json_decode_handler)
 
 # add routers
+from nt_echo_svc.routers import echo_router
+app.include_router(echo_router, prefix="/api")
