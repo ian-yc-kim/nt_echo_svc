@@ -27,3 +27,8 @@ def test_api_md_documents_endpoint_and_success():
     # success status and content-type documented
     assert '200' in text and 'OK' in text
     assert 'text/plain' in text
+
+
+def test_api_md_has_docs_reference():
+    text = pathlib.Path('API.md').read_text()
+    assert '/docs' in text or 'Swagger UI' in text

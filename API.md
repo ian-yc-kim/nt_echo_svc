@@ -1,5 +1,7 @@
 # nt_echo_svc API Documentation
 
+Note: Interactive Swagger UI is available at /docs when the service is running. You can also view the raw OpenAPI schema at /openapi.json.
+
 Overview
 
 This service provides a simple echo endpoint that accepts a JSON payload with a single field `message` (1..8 characters) and returns the message as plain text.
