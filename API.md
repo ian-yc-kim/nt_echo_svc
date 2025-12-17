@@ -2,20 +2,47 @@
 
 Overview
 
-This service provides a simple echo endpoint that accepts a JSON payload with a single field `message` (max 8 characters) and returns the message as plain text.
+This service provides a simple echo endpoint that accepts a JSON payload with a single field `message` (1..8 characters) and returns the message as plain text.
+
+Endpoint
+
+- Method: POST
+- Path: /api/echo
+- Content-Type: application/json
+
+Request Body
+
+The request body must be a JSON object with a single required property:
+
+{
+  "message": string  # length between 1 and 8 characters inclusive
+}
+
+Success Response
+
+- Status: 200 OK
+- Content-Type: text/plain; charset=utf-8
+- Body: The plain text message that was provided in the request
+
+Example Success
+
+Request
+
+POST /api/echo
+Content-Type: application/json
+
+{"message": "hello"}
+
+Response
+
+200 OK
+Content-Type: text/plain
+
+hello
 
 Error Handling
 
-The API returns HTTP 400 Bad Request for request validation and JSON parsing errors. Error responses use Content-Type: text/plain and contain a short plain-text message describing the problem.
-
-This applies to:
-- Request validation errors for the `message` field (missing, empty, or too long)
-- Malformed JSON payloads (JSON parsing errors)
-
-HTTP status and Content-Type
-
-- Status: 400 Bad Request
-- Content-Type: text/plain
+Validation and JSON parsing errors return HTTP 400 Bad Request and plain-text bodies (Content-Type: text/plain). The service uses custom handlers to produce concise, exact error messages for common cases.
 
 Exact error messages
 
@@ -24,6 +51,12 @@ The API returns the following exact plain-text messages for the corresponding er
 - Error: Message is required
 - Error: Message must be 8 characters or fewer
 - Error: Invalid request format
+
+Fallback for other validation issues
+
+Other validation errors (for example type mismatches or unexpected validation errors) return:
+
+- Error: Invalid request
 
 Examples
 
@@ -47,4 +80,5 @@ Body: Error: Invalid request format
 
 Notes
 
-The wording above matches the service's custom exception handlers and unit tests. Keep these messages unchanged to preserve backward compatibility for clients.
+- Keep the exact error message text as-is to preserve backward compatibility for clients.
+- The documented endpoint path is POST /api/echo (router path /echo with app prefix /api).
